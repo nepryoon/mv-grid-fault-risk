@@ -120,7 +120,6 @@ def train_model(settings: Settings, config_path: str) -> None:
         mlflow.sklearn.log_model(
             sk_model=pipe,
             artifact_path="model",
-            registered_model_name=settings.registered_model_name,
             input_example=X_test.head(5) if len(X_test) > 0 else X_train.head(5),
         )
 
