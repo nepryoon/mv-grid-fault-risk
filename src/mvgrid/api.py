@@ -3,6 +3,8 @@ from __future__ import annotations
 import os
 from typing import Any, Dict
 
+from fastapi.middleware.cors import CORSMiddleware
+
 import mlflow.sklearn
 import pandas as pd
 from fastapi import FastAPI
@@ -37,6 +39,16 @@ def to_risk_band(p: float) -> str:
 
 def create_app() -> FastAPI:
     app = FastAPI(title="MV Grid Fault Risk API", version="1.0.0")
+    
+    # Allow cross-origin requests for portfolio demos (Cloudflare site → Render API).
+    # In production, restrict allow_origins to your domain(s).
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     # Ensure we have a local model directory (models/latest) or pull from MODEL_URL.
     model_dir = ensure_model_present()
