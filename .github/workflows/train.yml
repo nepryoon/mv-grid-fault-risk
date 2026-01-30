@@ -1,0 +1,39 @@
+name: Train baseline model (MLflow)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Build dataset
+        run: |
+          python scripts/build_dataset.py
+
+      - name: Train model with MLflow
+        run: |
+          python scripts/run_train.py
+
+      - name: Package model artefact
+        run: |
+          tar -czf model_latest.tar.gz models/latest
+
+      - name: Upload model artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: model_latest
+          path: model_latest.tar.gz
