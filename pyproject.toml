@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mv-grid-fault-risk"
+version = "0.1.0"
+description = "Production-first MV grid fault risk scoring platform (end-to-end ML + MLOps)."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Luca Lillo" }]
+license = { text = "Apache-2.0" }
+
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.26",
+  "pyyaml>=6.0",
+  "scikit-learn>=1.4",
+  "mlflow>=2.10",
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "pydantic>=2.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff>=0.6",
+  "pytest>=8.0",
+  "mypy>=1.8"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
