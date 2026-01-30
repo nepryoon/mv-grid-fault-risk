@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Data / artefacts
+data/raw/
+data/processed/
+models/
+mlruns/
+
+# OS / editor
+.DS_Store
+.vscode/
