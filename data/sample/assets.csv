@@ -1,0 +1,13 @@
+asset_id,install_date,asset_type,region,voltage_kv,manufacturer
+A001,2006-04-18,overhead,north,15,GenericGridCo
+A002,2012-09-05,underground,north,15,GenericGridCo
+A003,1999-11-22,substation,north,20,GenericGridCo
+A004,2008-06-14,overhead,centre,15,GenericGridCo
+A005,2016-03-02,underground,centre,15,GenericGridCo
+A006,2001-01-30,substation,centre,20,GenericGridCo
+A007,2004-08-19,overhead,south,15,GenericGridCo
+A008,2010-12-11,underground,south,15,GenericGridCo
+A009,1997-05-27,substation,south,20,GenericGridCo
+A010,2018-07-09,overhead,centre,15,GenericGridCo
+A011,2003-10-03,underground,north,15,GenericGridCo
+A012,2009-02-25,overhead,south,15,GenericGridCo
