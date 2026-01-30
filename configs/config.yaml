@@ -1,0 +1,23 @@
+project:
+  name: "mv-grid-fault-risk"
+  seed: 42
+
+paths:
+  raw_faults_csv: "data/raw/fault_events.csv"
+  raw_assets_csv: "data/raw/assets.csv"
+  processed_parquet: "data/processed/training_table.parquet"
+  model_dir: "models"
+
+mlflow:
+  tracking_uri: "file:./mlruns"
+  experiment_name: "mv-grid-fault-risk"
+  registered_model_name: "mv-grid-fault-risk-model"
+
+training:
+  target_column: "fault_within_30d"
+  time_column: "event_date"
+  horizon_days: 30
+  test_size_days: 60
+
+serving:
+  model_uri: "models/latest"
