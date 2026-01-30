@@ -70,6 +70,15 @@ def build_training_table(
     feat["asset_age_years"] = (feat["ref_date"] - feat["install_date"]).dt.days / 365.25
     feat["asset_age_years"] = feat["asset_age_years"].fillna(feat["asset_age_years"].median())
 
+    # Drop datetime columns other than ref_date to avoid dtype promotion issues in sklearn pipelines.
+    datetime_cols = [
+        c for c in feat.columns
+        if c != "ref_date" and pd.api.types.is_datetime64_any_dtype(feat[c])
+    ]
+    if datetime_cols:
+        feat = feat.drop(columns=datetime_cols)
+
+
     # Keep simple categoricals for encoding in training
     for col in ["asset_type", "region"]:
         if col in feat.columns:
