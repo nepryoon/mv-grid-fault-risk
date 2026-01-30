@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from typing import Any, Dict
+import numpy as np
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -53,6 +54,9 @@ def create_app() -> FastAPI:
     # Ensure we have a local model directory (models/latest) or pull from MODEL_URL.
     model_dir = ensure_model_present()
     model = mlflow.sklearn.load_model(str(model_dir))
+    # Expected input schema (captured from training if available)
+    expected_cols = list(getattr(model, "feature_names_in_", []))
+
 
     @app.get("/health")
     def health() -> Dict[str, str]:
@@ -60,13 +64,27 @@ def create_app() -> FastAPI:
 
     @app.post("/predict", response_model=PredictResponse)
     def predict(req: PredictRequest) -> PredictResponse:
-        X = pd.DataFrame([req.features])
+        features = dict(req.features)
+
+        # Sensible demo default: the training table included asset_id, so ensure it's present.
+        features.setdefault("asset_id", "demo_asset")
+
+        X = pd.DataFrame([features])
+
+        # Align to the training schema if the model exposes it
+        if expected_cols:
+            for c in expected_cols:
+                if c not in X.columns:
+                    X[c] = np.nan
+            X = X[expected_cols]
+
         p = float(model.predict_proba(X)[:, 1][0])
         return PredictResponse(
             fault_probability_30d=p,
             risk_band=to_risk_band(p),
             model_source=str(model_dir),
         )
+
 
     return app
 
