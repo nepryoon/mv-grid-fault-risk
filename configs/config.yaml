@@ -3,8 +3,8 @@ project:
   seed: 42
 
 paths:
-  raw_faults_csv: "data/raw/fault_events.csv"
-  raw_assets_csv: "data/raw/assets.csv"
+  raw_faults_csv: "data/sample/fault_events.csv"
+  raw_assets_csv: "data/sample/assets.csv"
   processed_parquet: "data/processed/training_table.parquet"
   model_dir: "models"
 
